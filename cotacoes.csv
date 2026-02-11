@@ -1,13 +1,6 @@
-Data,Categoria,Item,Qtd,Unitário,Total,Especificação
-09/02/2026,🛠️ MANUTENÇÃO E LABORATÓRIO,Multímetro Digital True RMS,1,0.0,0.0,"Auto-range, medição de capacitância e temperatura."
-09/02/2026,🛠️ MANUTENÇÃO E LABORATÓRIO,Álcool Isopropílico 99.9%,7,0.0,0.0,Para limpeza de placas e remoção de oxidação.
-09/02/2026,🔌 ELÉTRICA E ENERGIA,Filtro de Linha DPS iClamper,12,0.0,0.0,Proteção real contra surtos elétricos.
-09/02/2026,🌐 REDES E INFRAESTRUTURA,Switch 24p Gigabit Rack,12,0.0,0.0,"10/100/1000 Mbps, padrão 19 polegadas."
-09/02/2026,🌐 REDES E INFRAESTRUTURA,Conector RJ45 CAT6,100,0.0,0.0,Pacote com 100 unidades com guia.
-09/02/2026,🌐 REDES E INFRAESTRUTURA,Rack de Parede 9U,2,0.0,0.0,Padrão 19 polegadas com porta de acrílico.
-09/02/2026,🆕 ADICIONAR ITEM NOVO,Memória RAM DDR4 8 Gb,1,0.0,0.0,Frequência 3200MHz corporativa
-09/02/2026,🌐 REDES E INFRAESTRUTURA,Cabo de Rede CAT6 (305m),1,0.0,0.0,"100% Cobre, homologado Anatel."
-09/02/2026,REDES E INFRAESTRUTURA,Patch Panel Cat6 8 portas,1,0.0,0.0,"projetado para organizar cabeamento estruturado. Ele opera em frequências de até \(250\text{\ MHz}\), suportando redes Gigabit Ethernet (\(1000\text{\ Mbps}\)) e \(10\text{GBASE-T}\) em distâncias curtas, seguindo normas TIA/EIA-568-B.2 e ISO/IEC 11801. "
-09/02/2026,🌐 REDES E INFRAESTRUTURA,Patch Panel Cat6 16 portas,1,0.0,0.0,"projetado para organizar cabeamento estruturado. Ele opera em frequências de até \(250\text{\ MHz}\), suportando redes Gigabit Ethernet (\(1000\text{\ Mbps}\)) e \(10\text{GBASE-T}\) em distâncias curtas, seguindo normas TIA/EIA-568-B.2 e ISO/IEC 11801. "
-09/02/2026,🌐 REDES E INFRAESTRUTURA,Conectores RJ45 macho Cat6,1,0.0,0.0,Velocidade/Frequência: Até 10 Gbps e 250 MHz.
-09/02/2026,🌐 REDES E INFRAESTRUTURA,Conector Fêmea  RJ45  Cat6,100,0.0,0.0,"RJ45 CAT6 fêmea (Keystone Jacks) são componentes essenciais para redes de alta performance, suportando velocidades de até 10 Gbps e frequências de 250 MHz."
+ID,Data,Categoria,Item,Qtd,Unitário,Total,Especificação
+1,11/02/2026,🛠️ MANUTENCAO,SSD 500GB,20,0.0,0.0,SSD NVMe M.2 500GB alta performance.
+2,11/02/2026,🌐 REDES,Switch 24p,1,0.0,0.0,Switch Gigabit Rack 19 polegadas.
+3,11/02/2026,🛠️ MANUTENÇÃO E LABORATÓRIO,Multímetro Digital True RMS,1,0.0,0.0,"Auto-range, medição de capacitância e temperatura."
+4,11/02/2026,ELÉTRICA,Filtro de linha  ,1,0.0,0.0,Proteção do equipamentos.
+5,11/02/2026,HARDWARE,Fonte de Alimentação ,1,0.0,0.0,500 Wats 80 plus
