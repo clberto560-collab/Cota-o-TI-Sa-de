@@ -9,21 +9,17 @@ from datetime import datetime
 def tratar_texto(texto):
     if texto is None: return " "
     texto = str(texto)
-    
-    # 1. Remove emojis específicos que costumam travar a fonte Helvetica
-    emojis = ["🛠", "🌐", "💾", "📥", "📄", "💰", "🚨", "🏢", "🔐", "🛡️"]
+    # Remove emojis que o PDF nativo não entende para evitar as interrogações
+    emojis = ["🛠", "🌐", "💾", "📥", "📄", "💰", "🚨", "🏢", "🔐", "🛡️", "🏛️"]
     for e in emojis:
         texto = texto.replace(e, "")
-    
-    # 2. Converte para Latin-1 (padrão do PDF) ignorando símbolos incompatíveis
-    # Isso mantém acentos (á, é, í, ó, ú, ç, ã) e remove o que causa "???"
     try:
         return texto.encode('iso-8859-1', 'ignore').decode('iso-8859-1').strip()
     except:
         return texto.strip()
 
 # --- CONFIGURAÇÕES INICIAIS ---
-st.set_page_config(page_title="TI Saúde - Aquidauana", layout="wide")
+st.set_page_config(page_title="TI Saúde - Aquidauana", page_icon="🏛️", layout="wide")
 
 # --- SISTEMA DE LOGIN ---
 def check_password():
@@ -46,8 +42,9 @@ def check_password():
 if check_password():
     # BIBLIOTECA PADRÃO
     biblioteca_padrao = {
-        "MANUTENCAO": {"SSD 500GB": "SSD NVMe M.2 500GB alta performance."},
-        "REDES": {"Switch 24p": "Switch Gigabit Rack 19 polegadas."}
+        "HARDWARE": {"SSD 500GB": "SSD NVMe M.2 500GB alta performance."},
+        "REDES": {"Switch 24p": "Switch Gigabit Rack 19 polegadas."},
+        "ELETRICA": {"Filtro de Linha": "Protetor contra surtos 5 tomadas."}
     }
 
     def carregar_biblioteca_custom():
@@ -72,7 +69,6 @@ if check_password():
     def carregar_cotacoes():
         if not os.path.exists('cotacoes.csv'): return pd.DataFrame(columns=COLUNAS_COTACAO)
         df = pd.read_csv('cotacoes.csv')
-        # Garante que as colunas numéricas sejam tratadas como tal
         df['Unitário'] = pd.to_numeric(df['Unitário'], errors='coerce').fillna(0.0)
         df['Total'] = pd.to_numeric(df['Total'], errors='coerce').fillna(0.0)
         return df
@@ -81,7 +77,10 @@ if check_password():
 
     # --- SIDEBAR ---
     with st.sidebar:
-        st.header("🏢 SMS Aquidauana")
+        if os.path.exists('brasao.png'):
+            st.image('brasao.png', width=100)
+        st.header("SMS Aquidauana")
+        
         if st.button("Sair/Logout"):
             st.session_state.authenticated = False
             st.rerun()
@@ -117,7 +116,7 @@ if check_password():
             st.rerun()
 
     # --- PAINEL PRINCIPAL ---
-    st.title("🛡️ TI Gestão - SMS Aquidauana")
+    st.title("🏛️ TI Gestão - SMS Aquidauana")
 
     if not df_cotacao.empty:
         def gerar_pdf_dual(data, modo="final"):
@@ -125,12 +124,23 @@ if check_password():
             pdf.set_auto_page_break(auto=True, margin=15)
             pdf.add_page()
             
-            # Cabeçalho Institucional
+            # --- BRASÕES LATERAIS (ESQUERDA E DIREITA) ---
+            if os.path.exists('brasao.png'):
+                # Brasão na Esquerda
+                pdf.image('brasao.png', x=10, y=10, w=22)
+                # Brasão na Direita (Cálculo: largura da página 210mm - margem 10mm - largura da imagem 22mm = 178mm)
+                pdf.image('brasao.png', x=178, y=10, w=22)
+            
+            # --- CABEÇALHO CENTRALIZADO ---
             pdf.set_fill_color(0, 51, 102) 
             pdf.set_text_color(255, 255, 255)
             pdf.set_font("helvetica", 'B', 14)
-            pdf.cell(190, 12, tratar_texto("PREFEITURA MUNICIPAL DE AQUIDAUANA"), align='C', fill=True, new_x="LMARGIN", new_y="NEXT")
             
+            # Centralizamos o título entre os dois brasões
+            pdf.set_x(35) 
+            pdf.cell(140, 14, tratar_texto("PREFEITURA MUNICIPAL DE AQUIDAUANA"), align='C', fill=True, new_x="LMARGIN", new_y="NEXT")
+            
+            pdf.ln(2)
             pdf.set_text_color(0, 0, 0)
             pdf.set_font("helvetica", 'B', 11)
             pdf.cell(190, 8, tratar_texto("SECRETARIA MUNICIPAL DE SAÚDE - SMS"), align='C', new_x="LMARGIN", new_y="NEXT")
@@ -141,13 +151,11 @@ if check_password():
             pdf.ln(5)
 
             for categoria in data['Categoria'].unique():
-                # Título do Grupo (Limpa Emojis)
                 pdf.set_font("helvetica", 'B', 10)
                 pdf.set_fill_color(240, 240, 240)
                 cat_txt = f" GRUPO: {categoria.upper()}"
                 pdf.cell(190, 7, tratar_texto(cat_txt), border=1, fill=True, new_x="LMARGIN", new_y="NEXT")
                 
-                # Cabeçalho da Tabela
                 pdf.set_font("helvetica", 'B', 8)
                 pdf.cell(110, 7, tratar_texto("DESCRIÇÃO"), border=1, align='C')
                 pdf.cell(15, 7, "QTD", border=1, align='C')
@@ -156,7 +164,6 @@ if check_password():
 
                 itens = data[data['Categoria'] == categoria]
                 for _, r in itens.iterrows():
-                    # Formatação de Moeda e Mapa
                     v_u = "........" if modo == "mapa" else f"{float(r['Unitário']):,.2f}"
                     v_t = "........" if modo == "mapa" else f"{float(r['Total']):,.2f}"
                     
