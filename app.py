@@ -40,7 +40,7 @@ if not st.session_state.auth:
     with col2:
         senha = st.text_input("Senha", type="password")
         if st.button("Entrar"):
-            if senha == "1234": 
+            if senha == "@quidauana": 
                 st.session_state.auth = True
                 st.rerun()
             else: st.error("Senha incorreta")
